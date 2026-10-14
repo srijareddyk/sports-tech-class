@@ -1,11 +1,12 @@
 # Fitness Stations (YOLO pose)
 
-Two webcam stations built on the YOLO11 pose model (17 body keypoints per person).
+Webcam stations built on the YOLO11 pose model (17 body keypoints per person).
 
 | Station | File | What it does |
 |---|---|---|
 | Push-up Challenge | `pushup_counter.py` | Player sets a time limit, then the game counts push-ups until time runs out |
 | Vertical Jump Meter | `jump_meter.py` | Measures how high the player jumps, in cm |
+| Agility Tracker | `agility_game.py` | Touch green targets with your hands, avoid red ones, build streaks for bonuses |
 
 ## Setup
 
@@ -51,7 +52,30 @@ stops standing arm bends from being counted. Thresholds are constants at the top
 Using the hips (close to the centre of mass) instead of the feet means tucking the knees doesn't
 inflate the score. Accuracy depends on the player staying the same distance from the camera.
 
+## Agility Tracker
+
+```bash
+.venv/bin/python agility_game.py --time 60
+```
+
+- Stand 1.5–2.5 m from the camera, facing it, with your arm reach in frame. The view is mirrored.
+- `+`/`-` changes the time limit (15 s steps), `SPACE` starts, `R` plays again.
+
+| Event | Points | Streak |
+|---|---|---|
+| Touch a green target | +10 | +1 |
+| Every 5 greens in a row | +25 bonus | continues |
+| Touch a red target | −5 | resets |
+| A green target runs out | 0 | resets |
+
+Up to 3 targets are on screen at once (about 30% are red). Each target's ring shows how long it
+has left; targets start at 2.5 s and speed up to 1.2 s by the end. The results screen shows score,
+accuracy, red touches, best streak, bonuses and average reaction time.
+
+Hands are tracked from the wrist keypoints, nudged forward along the forearm to approximate the
+palm. Tuning constants (points, speed, red chance, target size) are at the top of the file.
+
 ## Options
 
-Both scripts accept `--camera N` (default 0) and `--model` (for example `yolo11s-pose.pt` is
+All scripts accept `--camera N` (default 0) and `--model` (for example `yolo11s-pose.pt` is
 more accurate but slower).
