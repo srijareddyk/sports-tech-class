@@ -4,7 +4,6 @@ Webcam stations built on the YOLO11 pose model (17 body keypoints per person).
 
 | Station | File | What it does |
 |---|---|---|
-| Push-up Challenge | `pushup_counter.py` | Player sets a time limit, then the game counts push-ups until time runs out |
 | Vertical Jump Meter | `jump_meter.py` | Measures how high the player jumps, in cm |
 | Agility Tracker | `agility_game.py` | Touch green targets with your hands, avoid red ones, build streaks for bonuses |
 
@@ -16,20 +15,6 @@ python3 -m venv .venv
 ```
 
 On macOS, allow camera access for your terminal when it asks.
-
-## Push-up Challenge
-
-```bash
-.venv/bin/python pushup_counter.py --time 30
-```
-
-- Camera at floor level, **side-on** to the player, whole body in frame.
-- `+`/`-` changes the time limit (5 s steps), `SPACE` starts a 3-2-1 countdown, `R` plays again.
-
-**How a rep is counted:** the elbow angle (shoulder–elbow–wrist) is measured on whichever arm the
-camera sees best. A rep counts when the elbow bends below 95° *while the body is in a plank*
-(shoulder–hip line within 50° of horizontal) and then straightens past 155°. The plank check
-stops standing arm bends from being counted. Thresholds are constants at the top of the file.
 
 ## Vertical Jump Meter
 
